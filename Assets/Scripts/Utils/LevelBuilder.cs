@@ -15,7 +15,7 @@ public class LevelBuilder : MonoBehaviour {
     private void loadLevel(JSONArray asArray)
     {
         int cols = GridHandler.columns;
-        GameObject g2 = AssHandler.Instantiate(AssHandler.GameObjects.TBOT);
+        GameObject g2 = AssHandler.Instantiate(AssHandler.Player.TBot);
         int y = 2;
         int x = 1;
         for (int i = 1; i < asArray.Count+1; i++)

@@ -77,6 +77,6 @@ public class TBot : GridObject {
 
     public override void setType()
     {
-        type = AssHandler.GameObjects.TBOT;
+        type = AssHandler.Player.TBot;
     }
 }

@@ -13,10 +13,14 @@ public class AssHandler :MonoBehaviour{
                         MISSILE_ROOT = PREFAB_ROOT + "Missiles/",
                         LEVEL_DATA_ROOT = "LevelData/";
     public enum Sprites { }
-    public enum GameObjects {TBOT,TESTBLOCK,TESTBLOCK2,TESTMISSILE}
+    public enum Player { TBot }
     public enum Decorators { Explosion }
     public enum Weapons { NormalMissile,FireMissile,IceMissile}
     public enum Blocks { Granite,Crate,MetalCrate,Bomb, Arrow, Part,UpgradeIce,UpgradeFire,Portal};
+    private static Dictionary<Player, Object> player = new Dictionary<Player, Object>()
+    {
+        {Player.TBot,Resources.Load(PREFAB_ROOT+"Player")}
+    };
     private static Dictionary<Decorators, Object> decorators = new Dictionary<Decorators, Object>()
     {
         {Decorators.Explosion,Resources.Load(DECORATOR_ROOT+"explosion")}
@@ -27,26 +31,18 @@ public class AssHandler :MonoBehaviour{
         {Weapons.FireMissile,Resources.Load(MISSILE_ROOT+"fireMissile")},
         {Weapons.IceMissile,Resources.Load(MISSILE_ROOT+"iceMissile") }
     };
-    private static Dictionary<GameObjects, Object> gObjects = new Dictionary<GameObjects, Object>()
-    {
-        {GameObjects.TBOT,Resources.Load(PREFAB_ROOT+"Player")},
-        {GameObjects.TESTBLOCK,Resources.Load(BLOCKS_ROOT+"testblock")},
-        {GameObjects.TESTBLOCK2,Resources.Load(BLOCKS_ROOT+"testblock2")},
-         {GameObjects.TESTMISSILE,Resources.Load(MISSILE_ROOT+"testMissile")}
-    };
     private static Dictionary<Blocks, Object> blocks = new Dictionary<Blocks, Object>()
     {
         {Blocks.Granite,Resources.Load(BLOCKS_ROOT+"granite")},
         {Blocks.Crate,Resources.Load(BLOCKS_ROOT+"crate")},
         {Blocks.MetalCrate,Resources.Load(BLOCKS_ROOT+"metalCrate")},
-         {Blocks.Bomb,Resources.Load(BLOCKS_ROOT+"bomb")},
-          {Blocks.Arrow,Resources.Load(BLOCKS_ROOT+"bomb")},
-           {Blocks.Part,Resources.Load(BLOCKS_ROOT+"part")}
+        {Blocks.Bomb,Resources.Load(BLOCKS_ROOT+"bomb")},
+        {Blocks.Arrow,Resources.Load(BLOCKS_ROOT+"arrow")},
+        {Blocks.Part,Resources.Load(BLOCKS_ROOT+"part")}
     };
-
-    public static GameObject Instantiate(GameObjects g)
+    public static GameObject Instantiate(Player p) 
     {
-        return Instantiate(gObjects[g]) as GameObject;
+    return Instantiate(player[p]) as GameObject;
     }
     public static GameObject Instantiate(Blocks b)
     {
