@@ -5,18 +5,19 @@ using UnityEngine.UI;
 
 public class TBot : GridObject {
     private Vector2 startPosition = new Vector2(7,18);
-    private Vector2 startSize = new Vector2(1, 2);
+    private Vector2 startSize = new Vector2(2, 2);
     private AssHandler.Weapons currentWeapon = AssHandler.Weapons.NormalMissile;
     public override void Initialize(Vector2 position, Vector2 size)
     {
-        
+       
     }
 
     // Use this for initialization
     void Start () {
         setParams(startPosition, startSize);
+        GridHandler.resetHitBox(gameObject);
+        gridPos -= new Vector2(0.5f, 0);
     }
-	
 	// Update is called once per frame
 	void Update () {
         debugInput();
@@ -68,7 +69,7 @@ public class TBot : GridObject {
         
         GameObject g;
         g = AssHandler.Instantiate(currentWeapon);
-        g.GetComponent<BaseMissile>().Initialize(gridPos, new Vector2(1, 1));
+        g.GetComponent<BaseMissile>().Initialize(gridPos+new Vector2(0.5f,0), new Vector2(1, 1));
     }
     void FixedUpdate()
     {

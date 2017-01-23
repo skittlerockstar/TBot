@@ -75,5 +75,8 @@ public class GridHandler : MonoBehaviour {
         float posy = startingPositionY - (positionUnit * coordY) - positionUnit;
         return new Vector2(posx, -posy);
     }
-
+    public static void resetHitBox(GameObject gameObject)
+    {
+        gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1f, 1f);
+    }
 }

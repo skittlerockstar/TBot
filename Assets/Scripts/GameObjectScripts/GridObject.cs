@@ -5,8 +5,11 @@ using System.Collections.Generic;
 
 public abstract class GridObject : MonoBehaviour,IInstantiate{
     public static UnityEngine.Object prefab;
+    public enum movementDir { Up,Right,Down,Left};
     protected Vector2 gridPos;
     public Vector2 size;
+    public float speed = 0.0f;
+    public movementDir direction = movementDir.Up;
     public System.IConvertible type ;
     public ICollisionBehaviour collisionBehaviour = new ICIndestructable(null);
     public List<IConvertible> exc = new List<IConvertible>();
@@ -21,6 +24,24 @@ public abstract class GridObject : MonoBehaviour,IInstantiate{
             throw new NullReferenceException("Type is not set for " + gameObject.name);
         }
     }
+    private void FixedUpdate()
+    {
+        moveObject();
+    }
+
+    private void moveObject()
+    {
+        Vector3 movement = new Vector3(0, 0);
+        switch (direction)
+        {
+            case movementDir.Up: movement = new Vector3(0, speed); break;
+            case movementDir.Right: movement = new Vector3(speed,0); break;
+            case movementDir.Left: movement = new Vector3(-speed, 0); break;
+            case movementDir.Down: movement = new Vector3(0, -speed);  break;
+        }
+        gameObject.transform.localPosition += movement;
+    }
+
     protected void setParams(Vector2 pos,Vector2 size)
     {
         this.gridPos = pos;

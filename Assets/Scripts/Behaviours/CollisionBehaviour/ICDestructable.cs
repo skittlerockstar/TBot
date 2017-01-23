@@ -15,13 +15,19 @@ public class ICDestructable : IColImpl
     public override void doOnEnter(GameObject source, Collider2D collider)
     {
         Boolean isDestroyed = true;
+       
         GridObject go = collider.GetComponent<GridObject>();
-        foreach(IConvertible i in exceptions)
+        Debug.Log(go.collisionBehaviour);
+        foreach (IConvertible i in exceptions)
         {
             if (go.type.Equals(i))
             {
                 isDestroyed = false;
             }
+        }
+        if(go.collisionBehaviour.GetType() ==  typeof(ICNothing))
+        {
+            isDestroyed = false;
         }
         if (isDestroyed)
         {

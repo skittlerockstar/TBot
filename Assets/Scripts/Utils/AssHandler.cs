@@ -16,7 +16,7 @@ public class AssHandler :MonoBehaviour{
     public enum Player { TBot }
     public enum Decorators { Explosion }
     public enum Weapons { NormalMissile,FireMissile,IceMissile}
-    public enum Blocks { Granite,Crate,MetalCrate,Bomb, Arrow, Part,UpgradeIce,UpgradeFire,Portal};
+    public enum Blocks { Granite,Crate,MetalCrate,Bomb, Arrow, Part,Portal};
     private static Dictionary<Player, Object> player = new Dictionary<Player, Object>()
     {
         {Player.TBot,Resources.Load(PREFAB_ROOT+"Player")}
@@ -38,15 +38,15 @@ public class AssHandler :MonoBehaviour{
         {Blocks.MetalCrate,Resources.Load(BLOCKS_ROOT+"metalCrate")},
         {Blocks.Bomb,Resources.Load(BLOCKS_ROOT+"bomb")},
         {Blocks.Arrow,Resources.Load(BLOCKS_ROOT+"arrow")},
-        {Blocks.Part,Resources.Load(BLOCKS_ROOT+"part")}
+        {Blocks.Part,Resources.Load(BLOCKS_ROOT+"part")},
+          {Blocks.Portal,Resources.Load(BLOCKS_ROOT+"portal")}
     };
     public static GameObject Instantiate(Player p) 
     {
     return Instantiate(player[p]) as GameObject;
     }
     public static GameObject Instantiate(Blocks b)
-    {
-        Debug.Log(b);
+    {   
         return Instantiate(blocks[b]) as GameObject;
     }
     public static GameObject Instantiate(Decorators b)
