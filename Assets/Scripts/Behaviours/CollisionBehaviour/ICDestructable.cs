@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor;
+
 using UnityEngine;
 
 
@@ -17,7 +17,7 @@ public class ICDestructable : IColImpl
         Boolean isDestroyed = true;
        
         GridObject go = collider.GetComponent<GridObject>();
-        Debug.Log(go.collisionBehaviour);
+
         foreach (IConvertible i in exceptions)
         {
             if (go.type.Equals(i))

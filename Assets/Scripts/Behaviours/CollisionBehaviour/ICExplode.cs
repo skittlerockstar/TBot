@@ -26,6 +26,7 @@ public class ICExplode : IColImpl {
             Vector3 pos = source.transform.localPosition;
             Vector3 size = source.transform.localScale;
             GameObject g = AssHandler.Instantiate(AssHandler.Decorators.Explosion);
+            g.transform.parent = GameManager.getGameManager().getLevelHolder().transform;
             g.GetComponent<GridObject>().Initialize(pos, size);
             g.transform.localPosition = new Vector3(pos.x,pos.y,1);
             isExploded = true;

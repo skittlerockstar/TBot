@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 
 public abstract class GridObject : MonoBehaviour,IInstantiate{
+    protected GameManager gameMan;
+    protected GridHandler gridHand;
     public static UnityEngine.Object prefab;
     public enum movementDir { Up,Right,Down,Left};
     protected Vector2 gridPos;
@@ -11,13 +13,19 @@ public abstract class GridObject : MonoBehaviour,IInstantiate{
     public float speed = 0.0f;
     public movementDir direction = movementDir.Up;
     public System.IConvertible type ;
-    public ICollisionBehaviour collisionBehaviour = new ICIndestructable(null);
+    public List<ICollisionBehaviour> collisionBehaviour = new List<ICollisionBehaviour>();
     public List<IConvertible> exc = new List<IConvertible>();
+
+    public void Awake()
+    {
+        gameMan = GameManager.getGameManager();
+        gridHand = gameMan.getGridHandler();
+    }
     public virtual void init()
     {
         setType();
-        GridHandler.resizeObject(gameObject);
-        GridHandler.placeObjectAt(gameObject, gridPos, size);
+        gridHand.resizeObject(gameObject);
+        gridHand.placeObjectAt(gameObject, gridPos, size);
         
         if(type == null)
         { 
@@ -50,21 +58,57 @@ public abstract class GridObject : MonoBehaviour,IInstantiate{
     }
     public void setCollisionBehaviour(ICollisionBehaviour behaviour)
     {
-        collisionBehaviour = behaviour;
+        setCollisionBehaviour(behaviour, true);
+    }
+    public void setCollisionBehaviour(ICollisionBehaviour behaviour,Boolean empty)
+    {
+        if (empty)
+        {
+            collisionBehaviour.Clear();
+        }
+        collisionBehaviour.Add(behaviour);
+        
+    }
+    public void removeCollisionBehaviour()
+    {
+        collisionBehaviour.Clear();
+    }
+    public void removeCollisionBehaviour(Type type)
+    {
+        ICollisionBehaviour icc = null;
+        foreach(ICollisionBehaviour ic in collisionBehaviour)
+        {
+            if (ic.GetType().Equals(type))
+            {
+                icc = ic;
+            }
+        }
+       if(icc !=null) collisionBehaviour.Remove(icc);
     }
     public abstract void Initialize(Vector2 position, Vector2 size);
     public abstract void setType();
-    void OnTriggerEnter2D(Collider2D col)
+    protected void OnTriggerEnter2D(Collider2D col)
     {
-        collisionBehaviour.doOnEnter(gameObject,col);
+        foreach(ICollisionBehaviour i in collisionBehaviour) {
+            i.doOnEnter(gameObject, col);
+        }
     }
     protected void OnTriggerExit2D(Collider2D col)
     {
-        collisionBehaviour.doOnExit(gameObject, col);
+        foreach (ICollisionBehaviour i in collisionBehaviour)
+        {
+            i.doOnExit(gameObject, col);
+        }
     }
-    void OnTriggerStay2D(Collider2D col)
+    protected void OnTriggerStay2D(Collider2D col)
     {
-        collisionBehaviour.doOnStay(gameObject, col);
+        foreach (ICollisionBehaviour i in collisionBehaviour)
+        {
+            i.doOnStay(gameObject, col);
+        }
     }
-
+    public virtual void OnRayEnter()
+    {
+      
+    }
 }
